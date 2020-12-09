@@ -76,4 +76,33 @@ plt.legend(loc='upper left')
 # for i, label in enumerate(genes):
 #     ax1.annotate(label, (x[i], y[i]))
 
-plt.show()
+# plt.show()
+
+##########################################
+
+# print(modules["MLCYD"])
+
+
+
+def extractHpoTerms(GeneSymbol):
+
+    import urllib.request
+    import json
+
+    entrezFromGene = "https://hpo.jax.org/api/hpo/search/?q={}" # gene symbol
+    hpoFromEntrez ="https://hpo.jax.org/api/hpo/gene/{}" # entrez id
+
+    data = json.load(urllib.request.urlopen(entrezFromGene.format(GeneSymbol)))
+    entrezId = data["genes"][0]["entrezGeneId"] 
+    data = json.load(urllib.request.urlopen(hpoFromEntrez.format(entrezId)))
+
+    ontology = {}
+    for entry in data["termAssoc"]:
+        ontology[entry["name"]] = entry["ontologyId"]
+
+    return ontology
+
+geneOntology = extractHpoTerms("BRAF")
+
+print(geneOntology)
+
