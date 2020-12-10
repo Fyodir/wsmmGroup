@@ -6,10 +6,11 @@ import os
 
 path = os.path.join(
     os.sep, 
-    "home", 
-    "andrew", 
-    "Documents", 
+    "media", 
+    "sf_W_DRIVE", 
+    "OneDrive - UOM", 
     "MSc", 
+    "Year 3", 
     "wsmmGroup", 
     "Cardiomyopathies - including childhood onset", 
     "moduland", 
@@ -19,7 +20,7 @@ bridgnessCentralityFile = os.path.join(path, "bridgness_centrality.csv")
 df = pd.read_csv(bridgnessCentralityFile) 
 df['moduland_betweenness'] = df['moduland_betweenness'].apply(lambda x: float(x))
 df['moduland_centrality'] = df['moduland_centrality'].apply(lambda x: float(x))
-# print(df)
+
 # sorting modules into sub df's
 modules = {
     "MLCYD":df[(df['module'] == "MLCYD")],
@@ -65,7 +66,7 @@ ax1.set_ylabel("Betweeness")
 ax1.scatter(xMLCYD, yMLCYD, c='r', marker="s", label='MLCYD')
 ax1.scatter(xNTRK1, yNTRK1, c='gold', marker="s", label='NTRK1')
 ax1.scatter(xHCN1, yHCN1, c='g', marker="s", label='HCN1')
-ax1.scatter(xPanelAppGreen, yPanelAppGreen, c='k', marker="x", label='panelAppGreen')
+ax1.scatter(xPanelAppGreen, yPanelAppGreen, c='cyan', marker="x", label='panelAppGreen')
 
 ax1.plot(xMLCYD,fMLCYD(xMLCYD),lw=1.5, c="r")
 ax1.plot(xNTRK1,fNTRK1(xNTRK1),lw=1.5, c="gold")
@@ -73,16 +74,14 @@ ax1.plot(xHCN1,fHCN1(xHCN1),lw=1.5, c="g")
 
 plt.legend(loc='upper left')
 
-# for i, label in enumerate(genes):
-#     ax1.annotate(label, (x[i], y[i]))
+panelAppGreenGenes=panelAppGreen.name.tolist() 
+for i, gene in enumerate(genes):
+    if gene in panelAppGreenGenes:
+        ax1.annotate(gene, (x[i], y[i]))
 
-# plt.show()
+plt.show()
 
 ##########################################
-
-# print(modules["MLCYD"])
-
-
 
 def extractHpoTerms(GeneSymbol):
 
@@ -102,7 +101,6 @@ def extractHpoTerms(GeneSymbol):
 
     return ontology
 
-geneOntology = extractHpoTerms("BRAF")
 
-print(geneOntology)
+# print(extractHpoTerms("BRAF"))
 
