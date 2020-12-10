@@ -103,6 +103,7 @@ def extractHpoTerms(GeneSymbol):
 
     return ontology
 
+print(extractHpoTerms("TRIM25"))
 
 
 
@@ -149,11 +150,11 @@ def setHpoClasses(df, moduleGene):
 
     return module
 
-module = setHpoClasses(df, "NTRK1")
+# module = setHpoClasses(df, "NTRK1")
 
-for item in module.geneObjects:
-    item.setHpoTerms()
-    item.setHpoDf()
-    print(item.gene)
-    print(item.hpoTermsDf)
-    print(" ")
+# for item in module.geneObjects:
+#     item.setHpoTerms()
+#     item.setHpoDf()
+#     print(item.gene)
+#     print(item.hpoTermsDf)
+#     print(" ")
