@@ -61,7 +61,7 @@ ax1.set_ylabel("Betweeness")
 
 # Plot moduland clusters (modules)
 plotModule(df,"MLCYD", ax1, "royalblue")
-plotModule(df,"NTRK1", ax1, "gold")
+plotModule(df,"sss", ax1, "gold")
 plotModule(df,"HCN1", ax1, "r")
 
 # sub DF for panelApp Genes (green)
@@ -81,7 +81,7 @@ for i, gene in enumerate(genes):
 # Add legend
 plt.legend(loc='upper left')
 
-# plt.show()
+plt.show()
 
 ##########################################
 
@@ -149,11 +149,24 @@ def setHpoClasses(df, moduleGene):
 
     return module
 
-module = setHpoClasses(df, "MLCYD")
 
-for item in module.geneObjects:
-    item.setHpoTerms()
-    item.setHpoDf()
-    print(item.gene)
-    print(item.hpoTermsDf)
+
+def moduleHpoTerms(moduleGene):
+
     print(" ")
+    print("########################################################")
+    print(moduleGene)
+    print("########################################################")
+    print(" ")
+
+    module = setHpoClasses(df, moduleGene)
+    for item in module.geneObjects:
+        item.setHpoTerms()
+        item.setHpoDf()
+        print(item.gene)
+        print(item.hpoTermsDf.to_string())
+        print(" ")
+
+moduleHpoTerms("MLCYD")
+moduleHpoTerms("HCN1")
+moduleHpoTerms("NTRK1")
