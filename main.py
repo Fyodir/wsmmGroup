@@ -149,7 +149,7 @@ def setHpoClasses(df, moduleGene):
 
     return module
 
-module = setHpoClasses(df, "NTRK1")
+module = setHpoClasses(df, "MLCYD")
 
 for item in module.geneObjects:
     item.setHpoTerms()
