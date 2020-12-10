@@ -61,7 +61,7 @@ ax1.set_ylabel("Betweeness")
 
 # Plot moduland clusters (modules)
 plotModule(df,"MLCYD", ax1, "royalblue")
-plotModule(df,"sss", ax1, "gold")
+plotModule(df,"NTRK1", ax1, "gold")
 plotModule(df,"HCN1", ax1, "r")
 
 # sub DF for panelApp Genes (green)
