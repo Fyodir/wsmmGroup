@@ -60,7 +60,7 @@ ax1.set_xlabel("Centrality")
 ax1.set_ylabel("Betweeness")
 
 # Plot moduland clusters (modules)
-plotModule(df,"MLCYD", ax1, "cyan")
+plotModule(df,"MLCYD", ax1, "royalblue")
 plotModule(df,"NTRK1", ax1, "gold")
 plotModule(df,"HCN1", ax1, "r")
 
@@ -81,12 +81,12 @@ for i, gene in enumerate(genes):
 # Add legend
 plt.legend(loc='upper left')
 
-plt.show()
+# plt.show()
 
 ##########################################
 
 def extractHpoTerms(GeneSymbol):
-
+    "Extract HPO terms from HPO API with a given gene symbol"
     import urllib.request
     import json
 
@@ -104,5 +104,56 @@ def extractHpoTerms(GeneSymbol):
     return ontology
 
 
-# print(extractHpoTerms("BRAF"))
 
+
+
+class Module:
+
+    def __init__(self, gene):
+        self.moduleGene = gene
+        self.geneObjects = ""
+
+class Gene:
+
+    def __init__(self, gene):
+        self.gene = gene
+        self.hpoTerms = ""
+        self.hpoTermsDf = ""
+
+    def setHpoTerms(self):
+        try:
+            self.hpoTerms = extractHpoTerms(self.gene)
+        except:
+            print("Unable to extract HPO terms for {}".format(self.gene))
+            self.hpoTerms = {}
+
+    def setHpoDf(self):
+
+        data = {
+            "phenotype": self.hpoTerms.keys(),
+            "hpoId": self.hpoTerms.values(),
+        }
+
+
+        self.hpoTermsDf = pd.DataFrame.from_dict(data)
+
+
+def setHpoClasses(df, moduleGene):
+
+    module = Module(moduleGene)
+
+    dfHPO = df[(df['module'] == moduleGene)]
+    hpoNames = dfHPO.name.to_list()
+
+    module.geneObjects = [Gene(i) for i in hpoNames]
+
+    return module
+
+module = setHpoClasses(df, "NTRK1")
+
+for item in module.geneObjects:
+    item.setHpoTerms()
+    item.setHpoDf()
+    print(item.gene)
+    print(item.hpoTermsDf)
+    print(" ")
