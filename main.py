@@ -81,7 +81,6 @@ for i, gene in enumerate(genes):
 # Add legend
 plt.legend(loc='upper left')
 
-plt.show()
 
 ##########################################
 
@@ -163,10 +162,91 @@ def moduleHpoTerms(moduleGene):
     for item in module.geneObjects:
         item.setHpoTerms()
         item.setHpoDf()
-        print(item.gene)
-        print(item.hpoTermsDf.to_string())
-        print(" ")
+        # print(item.gene)
+        # print(item.hpoTermsDf.to_string())
+        # print(" ")
 
-moduleHpoTerms("MLCYD")
-moduleHpoTerms("HCN1")
-moduleHpoTerms("NTRK1")
+    return module
+
+lstHpo = []
+geneList = df.name.to_list()
+for gene in geneList:
+    try:
+        dictHpo = extractHpoTerms(gene)
+        # print(gene, "|".join(dictHpo.values()))
+        for k,v in dictHpo.items():
+            if v not in lstHpo:
+                lstHpo.append(v)
+    except:
+        pass
+
+firstRow = [","]+lstHpo
+print(",".join(firstRow))
+
+geneList = df.name.to_list()
+for gene in geneList:
+    try:
+        dictHpo = extractHpoTerms(gene)
+        row = [gene, "|".join(dictHpo.values())]
+        print(",".join(row))
+    except:
+        pass
+# print(",".join(lstHpo))
+# print(" ")
+
+# for gene in geneList:
+#     try:
+#         phenotypes, ids = extractHpoTerms(gene)
+#         print(gene, "|".join(ids))
+#     except:
+        # print("Unable to extract HPO terms for {}".format(gene))
+
+
+
+
+# print(" ")
+# for i in df.name.to_list():
+#     print("{},,".format(i))
+
+# module1 = moduleHpoTerms("MLCYD")
+# module2 = moduleHpoTerms("HCN1")
+# module3 = moduleHpoTerms("NTRK1")
+
+
+# genes = []
+# for item in module1.geneObjects:
+#         genes.append(item.gene)
+# for item in module2.geneObjects:
+#         genes.append(item.gene)
+# for item in module3.geneObjects:
+#         genes.append(item.gene)
+
+
+
+# phenotypeIds = []
+# for item in module1.geneObjects:
+#     for hpoIdentifier in item.hpoTermsDf.hpoId:
+#         phenotypeIds.append(hpoIdentifier)
+# for item in module2.geneObjects:
+#     for hpoIdentifier in item.hpoTermsDf.hpoId:
+#         phenotypeIds.append(hpoIdentifier)
+# for item in module3.geneObjects:
+#     for hpoIdentifier in item.hpoTermsDf.hpoId:
+#         phenotypeIds.append(hpoIdentifier)
+
+# for gene in genes:
+#     print(gene)
+
+# print(",".join(phenotypeIds))
+# print(genes)
+# print(" ")
+# print(phenotypeIds)
+
+
+
+
+
+
+
+
+# plt.show()
