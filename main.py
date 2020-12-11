@@ -4,15 +4,15 @@ import pandas as pd
 import csv
 import os
 import random
+from math import log
 
 # path to file
 path = os.path.join(
     os.sep, 
-    "media", 
-    "sf_W_DRIVE", 
-    "OneDrive - UOM", 
+    "home", 
+    "andrew", 
+    "Documents", 
     "MSc", 
-    "Year 3", 
     "wsmmGroup", 
     "Cardiomyopathies - including childhood onset", 
     "moduland", 
@@ -40,18 +40,21 @@ def plotModule(df, moduleName, plotAxes, colour, marker="s"):
     subDf = df[(df['module'] == moduleName)]
     xsubDf = subDf.moduland_centrality
     ysubDf = subDf.moduland_betweenness
+    # xLog = xLog.sort()
     fsubDf = regression(xsubDf,ysubDf)
 
     # Plot chart
     plotAxes.scatter(xsubDf, ysubDf, c=colour, marker=marker, label=moduleName)
     # Plot regression line
-    plotAxes.plot(xsubDf,fsubDf(xsubDf),lw=1.5, c=colour)
+    # plotAxes.plot(xsubDf,fsubDf(xsubDf),lw=1.5, c=colour)
 
     # Annotate points
-    lstGenes=subDf.name.tolist() 
-    for i, gene in enumerate(genes):
-        if gene in lstGenes:
-            ax1.annotate(gene, (x[i], y[i]))
+    # lstGenes=subDf.name.tolist() 
+    # for i, gene in enumerate(genes):
+    #     if gene in lstGenes:
+    #         ax1.annotate(gene, (x[i], y[i]))
+
+
 
 # Set-up plot
 fig = plt.figure()
@@ -72,14 +75,18 @@ y = df.moduland_betweenness
 xPanelAppGreen = panelAppGreen.moduland_centrality
 yPanelAppGreen = panelAppGreen.moduland_betweenness
 ax1.scatter(xPanelAppGreen, yPanelAppGreen, c='limegreen', marker="x", label='panelAppGreen')
-ax1.plot(xPanelAppGreen,regression(xPanelAppGreen,yPanelAppGreen)(xPanelAppGreen),lw=1.5, c="limegreen")
-panelAppGreenGenes=panelAppGreen.name.tolist() 
-for i, gene in enumerate(genes):
-    if gene in panelAppGreenGenes:
-        ax1.annotate(gene, (x[i], y[i]))
+# ax1.plot(xPanelAppGreen,regression(xPanelAppGreen,yPanelAppGreen)(xPanelAppGreen),lw=1.5, c="limegreen")
+# panelAppGreenGenes=panelAppGreen.name.tolist() 
+# for i, gene in enumerate(genes):
+#     if gene in panelAppGreenGenes:
+#         ax1.annotate(gene, (x[i], y[i]))
 
 # Add legend
 plt.legend(loc='upper left')
+plt.xscale("log")
+# plt.yscale("log")
+
+plt.show()
 
 
 ##########################################
@@ -168,29 +175,31 @@ def moduleHpoTerms(moduleGene):
 
     return module
 
-lstHpo = []
-geneList = df.name.to_list()
-for gene in geneList:
-    try:
-        dictHpo = extractHpoTerms(gene)
-        # print(gene, "|".join(dictHpo.values()))
-        for k,v in dictHpo.items():
-            if v not in lstHpo:
-                lstHpo.append(v)
-    except:
-        pass
+# lstHpo = []
+# geneList = df.name.to_list()
+# for gene in geneList:
+#     try:
+#         dictHpo = extractHpoTerms(gene)
+#         # print(gene, "|".join(dictHpo.values()))
+#         for k,v in dictHpo.items():
+#             if v not in lstHpo:
+#                 lstHpo.append(v)
+#     except:
+#         pass
 
-firstRow = [","]+lstHpo
-print(",".join(firstRow))
+# firstRow = [","]+lstHpo
+# print(",".join(firstRow))
 
-geneList = df.name.to_list()
-for gene in geneList:
-    try:
-        dictHpo = extractHpoTerms(gene)
-        row = [gene, "|".join(dictHpo.values())]
-        print(",".join(row))
-    except:
-        pass
+# geneList = df.name.to_list()
+# for gene in geneList:
+#     try:
+#         dictHpo = extractHpoTerms(gene)
+#         row = [gene, "|".join(dictHpo.values())]
+#         print(",".join(row))
+#     except:
+#         pass
+
+
 # print(",".join(lstHpo))
 # print(" ")
 
@@ -200,6 +209,9 @@ for gene in geneList:
 #         print(gene, "|".join(ids))
 #     except:
         # print("Unable to extract HPO terms for {}".format(gene))
+
+
+
 
 
 
